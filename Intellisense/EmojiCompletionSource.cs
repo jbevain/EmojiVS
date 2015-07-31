@@ -18,19 +18,19 @@ using Microsoft.VisualStudio.Text;
 namespace Emoji.Intellisense
 {
 	class EmojiCompletionSource : ICompletionSource
-    {
-        private readonly ITextBuffer _buffer;
-	    private readonly List<Completion> _emojiCompletions;
-        private bool _disposed = false;
-        
-        public EmojiCompletionSource(ITextBuffer buffer, IEmojiStore emojiStore)
-        {
-            _buffer = buffer;
+	{
+		private readonly ITextBuffer _buffer;
+		private readonly List<Completion> _emojiCompletions;
+		private bool _disposed = false;
 
-	        _emojiCompletions = emojiStore.Emojis()
+		public EmojiCompletionSource(ITextBuffer buffer, IEmojiStore emojiStore)
+		{
+			_buffer = buffer;
+
+			_emojiCompletions = emojiStore.Emojis()
 				.Select(EmojiCompletion)
 				.ToList();
-        }
+		}
 
 		private static Completion EmojiCompletion(Emoji emoji)
 		{
@@ -39,18 +39,18 @@ namespace Emoji.Intellisense
 		}
 
 		public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
-        {
-            if (_disposed)
-                throw new ObjectDisposedException("");
-            
-            ITextSnapshot snapshot = _buffer.CurrentSnapshot;
-            var triggerPoint = (SnapshotPoint)session.GetTriggerPoint(snapshot);
+		{
+			if (_disposed)
+				throw new ObjectDisposedException("");
 
-            if (triggerPoint == null)
-                return;
+			ITextSnapshot snapshot = _buffer.CurrentSnapshot;
+			var triggerPoint = (SnapshotPoint)session.GetTriggerPoint(snapshot);
 
-            var line = triggerPoint.GetContainingLine();
-            SnapshotPoint start = triggerPoint;
+			if (triggerPoint == null)
+				return;
+
+			var line = triggerPoint.GetContainingLine();
+			SnapshotPoint start = triggerPoint;
 
 			var emojiDetected = false;
 
@@ -75,10 +75,10 @@ namespace Emoji.Intellisense
 			if (!emojiDetected)
 				return;
 
-            var applicableTo = snapshot.CreateTrackingSpan(new SnapshotSpan(start, triggerPoint), SpanTrackingMode.EdgeInclusive);
+			var applicableTo = snapshot.CreateTrackingSpan(new SnapshotSpan(start, triggerPoint), SpanTrackingMode.EdgeInclusive);
 
-            completionSets.Add(new CompletionSet("All", "All", applicableTo, _emojiCompletions, Enumerable.Empty<Completion>()));
-        }
+			completionSets.Add(new CompletionSet("All", "All", applicableTo, _emojiCompletions, Enumerable.Empty<Completion>()));
+		}
 
 		private bool IsEmojiChar(char chr)
 		{
@@ -98,8 +98,8 @@ namespace Emoji.Intellisense
 		}
 
 		public void Dispose()
-        {
-            _disposed = true;
-        }
-    }
+		{
+			_disposed = true;
+		}
+	}
 }

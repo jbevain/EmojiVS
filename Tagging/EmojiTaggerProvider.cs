@@ -4,14 +4,14 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace Emoji.Tagger
+namespace Emoji.Tagging
 {
 	[Export(typeof(ITaggerProvider))]
 	[ContentType("text")]
 	[TagType(typeof(EmojiTag))]
 	internal sealed class EmojiTaggerProvider : ITaggerProvider
 	{
-		public IEmojiStore EmojiStore { get;}
+		public IEmojiStore EmojiStore { get; }
 
 		[ImportingConstructor]
 		public EmojiTaggerProvider(IEmojiStore emojiStore)

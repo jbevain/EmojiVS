@@ -64,10 +64,10 @@
     <Compile Include="Intellisense\EmojiCompletionSourceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleJson.cs" />
-    <Compile Include="Tagger\EmojiTag.cs" />
-    <Compile Include="Tagger\EmojiTagger.cs" />
-    <Compile Include="Tagger\EmojiTaggerProvider.cs" />
-    <Compile Include="Tagger\RegexTagger.cs" />
+    <Compile Include="Tagging\EmojiTag.cs" />
+    <Compile Include="Tagging\EmojiTagger.cs" />
+    <Compile Include="Tagging\EmojiTaggerProvider.cs" />
+    <Compile Include="Tagging\RegexTagger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

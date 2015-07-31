@@ -19,36 +19,36 @@ using Emoji.Tagger;
 
 namespace Emoji.Adornment
 {
-    [Export(typeof(IViewTaggerProvider))]
-    [ContentType("text")]
-    [ContentType("projection")]
-    [TagType(typeof(IntraTextAdornmentTag))]
-    internal sealed class EmojiAdornmentTaggerProvider : IViewTaggerProvider
-    {
-        public IBufferTagAggregatorFactoryService BufferTagAggregatorFactoryService { get; }
+	[Export(typeof(IViewTaggerProvider))]
+	[ContentType("text")]
+	[ContentType("projection")]
+	[TagType(typeof(IntraTextAdornmentTag))]
+	internal sealed class EmojiAdornmentTaggerProvider : IViewTaggerProvider
+	{
+		public IBufferTagAggregatorFactoryService BufferTagAggregatorFactoryService { get; }
 
 		[ImportingConstructor]
-	    public EmojiAdornmentTaggerProvider(IBufferTagAggregatorFactoryService bufferTagAggregatorFactoryService)
-	    {
-		    BufferTagAggregatorFactoryService = bufferTagAggregatorFactoryService;
-	    }
+		public EmojiAdornmentTaggerProvider(IBufferTagAggregatorFactoryService bufferTagAggregatorFactoryService)
+		{
+			BufferTagAggregatorFactoryService = bufferTagAggregatorFactoryService;
+		}
 
-        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
-        {
-            if (textView == null)
-                throw new ArgumentNullException(nameof(textView));
+		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
+		{
+			if (textView == null)
+				throw new ArgumentNullException(nameof(textView));
 
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
+			if (buffer == null)
+				throw new ArgumentNullException(nameof(buffer));
 
-            if (buffer != textView.TextBuffer)
-                return null;
+			if (buffer != textView.TextBuffer)
+				return null;
 
-            return EmojiAdornmentTagger.GetTagger(
-                (IWpfTextView)textView,
-                new Lazy<ITagAggregator<EmojiTag>>(
-                    () => BufferTagAggregatorFactoryService.CreateTagAggregator<EmojiTag>(textView.TextBuffer)))
-                as ITagger<T>;
-        }
-    }
+			return EmojiAdornmentTagger.GetTagger(
+				(IWpfTextView)textView,
+				new Lazy<ITagAggregator<EmojiTag>>(
+					() => BufferTagAggregatorFactoryService.CreateTagAggregator<EmojiTag>(textView.TextBuffer)))
+				as ITagger<T>;
+		}
+	}
 }

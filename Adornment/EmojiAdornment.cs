@@ -15,16 +15,16 @@ using Emoji.Tagger;
 
 namespace Emoji.Adornment
 {
-    internal sealed class EmojiAdornment : Image
-    {
-        internal EmojiAdornment(EmojiTag tag, double fontSize)
-        {
-	        const double factor = 1.5;
+	internal sealed class EmojiAdornment : Image
+	{
+		internal EmojiAdornment(EmojiTag tag, double fontSize)
+		{
+			const double factor = 1.5;
 
-	        ToolTip = tag.Emoji.Name;
+			ToolTip = tag.Emoji.Name;
 
-	        Width = fontSize * factor;
-	        Height = fontSize * factor;
+			Width = fontSize * factor;
+			Height = fontSize * factor;
 
 			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 			RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
@@ -32,9 +32,9 @@ namespace Emoji.Adornment
 			Update(tag);
 		}
 
-	    public void Update(EmojiTag tag)
-	    {
-		    Source = tag.Emoji.Bitmap();
+		public void Update(EmojiTag tag)
+		{
+			Source = tag.Emoji.Bitmap();
 		}
-    }
+	}
 }

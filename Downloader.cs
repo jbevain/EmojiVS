@@ -16,7 +16,7 @@ namespace Emoji
 				RequestUri = new Uri("https://api.github.com/emojis"),
 				Headers =
 				{
-					{"Connection", "Keep-Alive"},
+					{ "Connection", "Keep-Alive"},
 					{ "Accept", "application/vnd.github.v3+json"},
 					{ "User-Agent", "EmojiVS" },
 				},

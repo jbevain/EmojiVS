@@ -22,31 +22,31 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace Emoji.Adornment
 {
-    internal sealed class EmojiAdornmentTagger
+	internal sealed class EmojiAdornmentTagger
 
 #if HIDING_TEXT
-        : IntraTextAdornmentTagTransformer<EmojiTag, EmojiAdornment>
+		: IntraTextAdornmentTagTransformer<EmojiTag, EmojiAdornment>
 #else
         : IntraTextAdornmentTagger<EmojiTag, EmojiAdornment>
 #endif
 
-    {
-        internal static ITagger<IntraTextAdornmentTag> GetTagger(IWpfTextView view, Lazy<ITagAggregator<EmojiTag>> emojiTagger)
-        {
-            return view.Properties.GetOrCreateSingletonProperty<EmojiAdornmentTagger>(
-                () => new EmojiAdornmentTagger(view, emojiTagger.Value));
-        }
+	{
+		internal static ITagger<IntraTextAdornmentTag> GetTagger(IWpfTextView view, Lazy<ITagAggregator<EmojiTag>> emojiTagger)
+		{
+			return view.Properties.GetOrCreateSingletonProperty<EmojiAdornmentTagger>(
+				() => new EmojiAdornmentTagger(view, emojiTagger.Value));
+		}
 
 #if HIDING_TEXT
-        private EmojiAdornmentTagger(IWpfTextView view, ITagAggregator<EmojiTag> emojiTagger)
-            : base(view, emojiTagger)
-        {
-        }
+		private EmojiAdornmentTagger(IWpfTextView view, ITagAggregator<EmojiTag> emojiTagger)
+			: base(view, emojiTagger)
+		{
+		}
 
-        public override void Dispose()
-        {
-            base.view.Properties.RemoveProperty(typeof(EmojiAdornmentTagger));
-        }
+		public override void Dispose()
+		{
+			base.view.Properties.RemoveProperty(typeof(EmojiAdornmentTagger));
+		}
 #else
         private ITagAggregator<EmojiTag> _emojiTagger;
 
@@ -91,15 +91,15 @@ namespace Emoji.Adornment
         }
 #endif
 
-        protected override EmojiAdornment CreateAdornment(EmojiTag dataTag, SnapshotSpan span)
-        {
-            return new EmojiAdornment(dataTag, ((System.Windows.Controls.Control)view).FontSize);
-        }
+		protected override EmojiAdornment CreateAdornment(EmojiTag dataTag, SnapshotSpan span)
+		{
+			return new EmojiAdornment(dataTag, ((System.Windows.Controls.Control)view).FontSize);
+		}
 
-        protected override bool UpdateAdornment(EmojiAdornment adornment, EmojiTag dataTag)
-        {
-            adornment.Update(dataTag);
-            return true;
-        }
-    }
+		protected override bool UpdateAdornment(EmojiAdornment adornment, EmojiTag dataTag)
+		{
+			adornment.Update(dataTag);
+			return true;
+		}
+	}
 }

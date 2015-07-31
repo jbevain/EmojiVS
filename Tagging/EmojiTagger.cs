@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.Text;
 
-namespace Emoji.Tagger
+namespace Emoji.Tagging
 {
 	internal sealed class EmojiTagger : RegexTagger<EmojiTag>
 	{

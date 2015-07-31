@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Tagging;
 
-namespace Emoji.Tagger
+namespace Emoji.Tagging
 {
 	class EmojiTag : ITag
 	{
