@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="EmojiVS.jbevain.607f444a-86cb-4965-b22f-a7a208fdde00" Version="1.0" Language="en-US" Publisher="Jb Evain" />
+    <DisplayName>EmojiVS</DisplayName>
+    <Description xml:space="preserve">GitHub Emojis in Visual Studio</Description>
+    <MoreInfo>http://github.com/jbevain/EmojiVS</MoreInfo>
+    <License>LICENSE.txt</License>
+    <Icon>Images\1f631.png</Icon>
+    <PreviewImage>Images\Preview.png</PreviewImage>
+    <Tags>emoji github editor awesome useful</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Pro" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="[12.0,13.0)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+  </Assets>
+</PackageManifest>
