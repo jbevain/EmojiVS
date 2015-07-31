@@ -188,7 +188,9 @@ namespace Emoji.Intellisense
             }
             _currentSession.Dismissed += (sender, args) => _currentSession = null;
 
-            _currentSession.Start();
+
+            if (!_currentSession.IsStarted)
+                _currentSession.Start();
 
             return true;
         }
