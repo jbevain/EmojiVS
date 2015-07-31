@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using SimpleJson;
 
 namespace Emoji
 {
@@ -10,7 +9,7 @@ namespace Emoji
 	{
 		private readonly HttpClient _client = new HttpClient();
 
-		public async Task<JsonObject> DownloadEmojiListAsync()
+		public async Task<string> DownloadEmojiListAsync()
 		{
 			var request = new HttpRequestMessage
 			{
@@ -23,10 +22,8 @@ namespace Emoji
 				},
 			};
 
-			var response = await _client.SendAsync(request).ConfigureAwait(false);
-			var jsonText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-			return SimpleJson.SimpleJson.DeserializeObject<JsonObject>(jsonText);
+			var response = await _client.SendAsync(request);
+			return await response.Content.ReadAsStringAsync();
 		}
 
 		public async Task DownloadEmojiAsync(Emoji emoji)

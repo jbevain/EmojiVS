@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
+using SimpleJson;
+using Json = SimpleJson.SimpleJson;
 
 namespace Emoji
 {
@@ -28,18 +30,49 @@ namespace Emoji
 		{
 			Task.Run(async () =>
 			{
-				foreach (var pair in await _downloader.DownloadEmojiListAsync())
+				try
 				{
-					var name = pair.Key;
-					var uri = new Uri((string)pair.Value);
-
-					var emoji = new Emoji(name, uri, EmojiFileName(uri));
-					if (!emoji.IsRetrieved)
-						DownloadEmoji(emoji);
-
-					_emojis.Add(name, emoji);
+					var json = await _downloader.DownloadEmojiListAsync();
+					InitializeFromJson(json);
+					await WriteLocalJsonAsync(json);
+				}
+				catch
+				{
+					InitializeFromJson(await ReadLocalJsonAsync());
 				}
 			});
+		}
+
+		private async Task WriteLocalJsonAsync(string json)
+		{
+			var localJsonFile = Path.Combine(_storeDirectory, "emojis.json");
+
+			using (var file = new FileStream(localJsonFile, File.Exists(localJsonFile) ? FileMode.Truncate : FileMode.OpenOrCreate, FileAccess.Write))
+			using (var writer = new StreamWriter(file) { AutoFlush = true })
+				await writer.WriteAsync(json);
+		}
+
+		private async Task<string> ReadLocalJsonAsync()
+		{
+			var localJsonFile = Path.Combine(_storeDirectory, "emojis.json");
+
+			using (var file = File.OpenText(localJsonFile))
+				return await file.ReadToEndAsync();
+		}
+
+		private void InitializeFromJson(string json)
+		{
+			foreach (var pair in Json.DeserializeObject<JsonObject>(json))
+			{
+				var name = pair.Key;
+				var uri = new Uri((string) pair.Value);
+
+				var emoji = new Emoji(name, uri, EmojiFileName(uri));
+				if (!emoji.IsRetrieved)
+					DownloadEmoji(emoji);
+
+				_emojis.Add(name, emoji);
+			}
 		}
 
 		private void DownloadEmoji(Emoji emoji)
