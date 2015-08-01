@@ -3,7 +3,7 @@ EmojiVS
 
 [EmojiVS](https://visualstudiogallery.msdn.microsoft.com/88575465-8486-4c5a-8406-05e8d1d5b09d) is a Visual Studio 2013 and 2015 extension to display GitHub emojis in the editor.
 
-You can install EmojiVS through on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/88575465-8486-4c5a-8406-05e8d1d5b09d) or directly from Visual Studio.
+You can download EmojiVS on the [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/88575465-8486-4c5a-8406-05e8d1d5b09d) or install it directly from the Visual Studio extension manager.
 
 Note that the emojis are downloaded on first use, depending on your connection it might take some time to have all the emojis downloaded.
 
