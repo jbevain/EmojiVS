@@ -11,7 +11,7 @@
 
 using System.Windows.Controls;
 using System.Windows.Media;
-using Emoji.Tagger;
+using Emoji.Tagging;
 
 namespace Emoji.Adornment
 {
