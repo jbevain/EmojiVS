@@ -63,6 +63,7 @@
     <Compile Include="IEmojiLocationHandler.cs" />
     <Compile Include="IEmojiLocationHandlerProvider.cs" />
     <Compile Include="IEmojiStore.cs" />
+    <Compile Include="Intellisense\CommandFilter.cs" />
     <Compile Include="Intellisense\CompletionController.cs" />
     <Compile Include="Intellisense\EmojiCompletionSource.cs" />
     <Compile Include="Intellisense\EmojiCompletionSourceProvider.cs" />
