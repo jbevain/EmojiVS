@@ -6,21 +6,24 @@ using Microsoft.VisualStudio.Utilities;
 namespace Emoji.Intellisense
 {
 	[Export(typeof(ICompletionSourceProvider))]
-	[ContentType("text")]
+	[ContentType("code")]
 	[Name("Emoji")]
 	class EmojiCompletionSourceProvider : ICompletionSourceProvider
 	{
 		public IEmojiStore EmojiStore { get; }
 
+		public IEmojiLocationHandlerProvider EmojiLocationHandlerProvider { get; set; }
+
 		[ImportingConstructor]
-		public EmojiCompletionSourceProvider(IEmojiStore emojiStore)
+		public EmojiCompletionSourceProvider(IEmojiStore emojiStore, IEmojiLocationHandlerProvider emojiLocationHandlerProvider)
 		{
 			EmojiStore = emojiStore;
+			EmojiLocationHandlerProvider = emojiLocationHandlerProvider;
 		}
 
-		public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
+		public ICompletionSource TryCreateCompletionSource(ITextBuffer buffer)
 		{
-			return new EmojiCompletionSource(textBuffer, EmojiStore);
+			return new EmojiCompletionSource(buffer, EmojiStore, EmojiLocationHandlerProvider.CreateLocationHandler(buffer));
 		}
 	}
 }
