@@ -56,7 +56,9 @@ namespace Emoji.Intellisense
 
 			while (start > line.Start)
 			{
-				var chr = start.GetChar();
+				var chr = start == snapshot.Length
+					? '\n'
+					: start.GetChar();
 
 				if (chr == ':')
 				{
