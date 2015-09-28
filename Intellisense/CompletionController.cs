@@ -28,7 +28,7 @@ namespace Emoji.Intellisense
 {
 	[Export(typeof(IVsTextViewCreationListener))]
 	[ContentType("text")]
-	[TextViewRole(PredefinedTextViewRoles.Interactive)]
+	[TextViewRole(PredefinedTextViewRoles.Document)]
 	internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
 	{
 		[Import]
