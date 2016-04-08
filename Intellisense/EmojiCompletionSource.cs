@@ -65,11 +65,13 @@ namespace Emoji.Intellisense
 	{
 		private readonly ITextBuffer _buffer;
 		private readonly List<EmojiCompletion> _emojiCompletions;
+		private readonly IEmojiLocationHandler _locationHandler;
 		private bool _disposed = false;
 
-		public EmojiCompletionSource(ITextBuffer buffer, IEmojiStore emojiStore)
+		public EmojiCompletionSource(ITextBuffer buffer, IEmojiStore emojiStore, IEmojiLocationHandler locationHandler)
 		{
 			_buffer = buffer;
+			_locationHandler = locationHandler;
 
 			_emojiCompletions = emojiStore.Emojis()
 				.Select(e => new EmojiCompletion(e))
@@ -115,7 +117,12 @@ namespace Emoji.Intellisense
 			if (!emojiDetected)
 				return;
 
-			var applicableTo = snapshot.CreateTrackingSpan(new SnapshotSpan(start, triggerPoint), SpanTrackingMode.EdgeInclusive);
+			var span = new SnapshotSpan(start, triggerPoint);
+
+			if (!_locationHandler.CanHazEmoji(span))
+				return;
+
+			var applicableTo = snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
 
 			completionSets.Add(new CompletionSet("All", "All", applicableTo, _emojiCompletions, Enumerable.Empty<Completion>()));
 		}

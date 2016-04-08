@@ -52,9 +52,14 @@
     <Compile Include="Adornment\IntraTextAdornmentTagTransformer.cs" />
     <Compile Include="Downloader.cs" />
     <Compile Include="Emoji.cs" />
+    <Compile Include="EmojiLocationHandler.cs" />
+    <Compile Include="EmojiLocationHandlerProvider.cs" />
     <Compile Include="EmojiPackage.cs" />
     <Compile Include="EmojiStore.cs" />
+    <Compile Include="IEmojiLocationHandler.cs" />
+    <Compile Include="IEmojiLocationHandlerProvider.cs" />
     <Compile Include="IEmojiStore.cs" />
+    <Compile Include="Intellisense\CommandFilter.cs" />
     <Compile Include="Intellisense\CompletionController.cs" />
     <Compile Include="Intellisense\EmojiCompletionSource.cs" />
     <Compile Include="Intellisense\EmojiCompletionSourceProvider.cs" />

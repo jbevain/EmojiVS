@@ -27,14 +27,14 @@ namespace Emoji.Tagging
 	/// <typeparam name="T">The type of tags that will be produced by this tagger.</typeparam>
 	internal abstract class RegexTagger<T> : ITagger<T> where T : ITag
 	{
-		private readonly IEnumerable<Regex> matchExpressions;
+		private readonly Regex regex;
 
-		public RegexTagger(ITextBuffer buffer, IEnumerable<Regex> matchExpressions)
+		public RegexTagger(ITextBuffer buffer, Regex regex)
 		{
-			if (matchExpressions.Any(re => (re.Options & RegexOptions.Multiline) == RegexOptions.Multiline))
+			if ((regex.Options & RegexOptions.Multiline) == RegexOptions.Multiline)
 				throw new ArgumentException("Multiline regular expressions are not supported.");
 
-			this.matchExpressions = matchExpressions;
+			this.regex = regex;
 
 			buffer.Changed += (sender, args) => HandleBufferChanged(args);
 
@@ -48,19 +48,19 @@ namespace Emoji.Tagging
 			// Note that the spans argument can contain spans that are sub-spans of lines or intersect multiple lines.
 			foreach (var line in GetIntersectingLines(spans))
 			{
-				string text = line.GetText();
+				var text = line.GetText();
 
-				foreach (var regex in matchExpressions)
+				foreach (var match in regex.Matches(text).Cast<Match>())
 				{
-					foreach (var match in regex.Matches(text).Cast<Match>())
-					{
-						T tag = TryCreateTagForMatch(match);
-						if (tag != null)
-						{
-							SnapshotSpan span = new SnapshotSpan(line.Start + match.Index, match.Length);
-							yield return new TagSpan<T>(span, tag);
-						}
-					}
+					var tag = TryCreateTagForMatch(match);
+					if (tag == null)
+						continue;
+
+					var span = new SnapshotSpan(line.Start + match.Index, match.Length);
+
+					var tagSpan = TryCreateTagSpan(span, tag);
+					if (tagSpan != null)
+						yield return tagSpan;
 				}
 			}
 		}
@@ -95,6 +95,8 @@ namespace Emoji.Tagging
 		/// <param name="match">The match to create a tag for.</param>
 		/// <returns>The tag to return from <see cref="GetTags"/>, if non-<c>null</c>.</returns>
 		protected abstract T TryCreateTagForMatch(Match match);
+
+		protected abstract ITagSpan<T> TryCreateTagSpan(SnapshotSpan span, T tag);
 
 		/// <summary>
 		/// Handle buffer changes. The default implementation expands changes to full lines and sends out
