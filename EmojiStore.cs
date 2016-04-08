@@ -85,7 +85,7 @@ namespace Emoji
 			return Path.Combine(_storeDirectory, Path.GetFileName(uri.LocalPath));
 		}
 
-		private static string StoreDirectory() => Path.Combine(Path.GetDirectoryName(typeof(EmojiPackage).Assembly.Location), "EmojiStore");
+		private static string StoreDirectory() => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EmojiVS");
 
 		public bool TryGetEmoji(string name, out Emoji emoji)
 		{
