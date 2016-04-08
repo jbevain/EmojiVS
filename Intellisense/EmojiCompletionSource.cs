@@ -12,15 +12,59 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 
 namespace Emoji.Intellisense
 {
+	class EmojiCompletion : Completion
+	{
+		private Emoji _emoji;
+		private string _name;
+
+		public EmojiCompletion(Emoji emoji)
+			: base()
+		{
+			_emoji = emoji;
+			_name = $":{emoji.Name}:";
+		}
+
+		public override string InsertionText
+		{
+			get { return _name; }
+			set { throw new InvalidOperationException(); }
+		}
+
+		public override string DisplayText
+		{
+			get { return _name; }
+			set { throw new InvalidOperationException(); }
+		}
+
+		public override string Description
+		{
+			get { return _name; }
+			set { throw new InvalidOperationException(); }
+		}
+
+		public override ImageSource IconSource
+		{
+			get { return _emoji.Bitmap(); }
+			set { throw new InvalidOperationException(); }
+		}
+
+		public override string IconAutomationText
+		{
+			get { return _name; }
+			set { throw new InvalidOperationException(); }
+		}
+	}
+
 	class EmojiCompletionSource : ICompletionSource
 	{
 		private readonly ITextBuffer _buffer;
-		private readonly List<Completion> _emojiCompletions;
+		private readonly List<EmojiCompletion> _emojiCompletions;
 		private bool _disposed = false;
 
 		public EmojiCompletionSource(ITextBuffer buffer, IEmojiStore emojiStore)
@@ -28,14 +72,8 @@ namespace Emoji.Intellisense
 			_buffer = buffer;
 
 			_emojiCompletions = emojiStore.Emojis()
-				.Select(EmojiCompletion)
+				.Select(e => new EmojiCompletion(e))
 				.ToList();
-		}
-
-		private static Completion EmojiCompletion(Emoji emoji)
-		{
-			var name = $":{emoji.Name}:";
-			return new Completion(name, name, name, emoji.Bitmap(), name);
 		}
 
 		public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
